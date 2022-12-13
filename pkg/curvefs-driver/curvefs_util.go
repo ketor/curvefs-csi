@@ -18,13 +18,14 @@ package curvefsdriver
 
 import (
 	"fmt"
-	"github.com/container-storage-interface/spec/lib/go/csi"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"strconv"
+
+	"github.com/container-storage-interface/spec/lib/go/csi"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 const (
@@ -200,7 +201,7 @@ func (cm *curvefsMounter) MountFs(
 
 	cm.mounterParams["fsname"] = fsname
 	// call curve-fuse -o conf=/etc/curvefs/client.conf -o fsname=testfs \
-	//       -o fstype=s3  --mdsAddr=1.1.1.1 <mountpoint>
+	//       -o fstype=s3  --mdsAddr=1.1.1.1 -f <mountpoint>
 	var mountFsArgs []string
 	doubleDashArgs := map[string]string{"mdsaddr": ""}
 	for k, v := range cm.mounterParams {
@@ -213,19 +214,24 @@ func (cm *curvefsMounter) MountFs(
 			mountFsArgs = append(mountFsArgs, arg)
 		}
 	}
+	// we need foreground to walkaround metric getting
+	mountFsArgs = append(mountFsArgs, "-f")
 	mountFsArgs = append(mountFsArgs, targetPath)
-	mountFsCmd := exec.Command(clientPath, mountFsArgs...)
-	output, err := mountFsCmd.CombinedOutput()
-	if err != nil {
-		return status.Errorf(
-			codes.Internal,
-			"curve-fuse mount failed. cmd: %s %v, output: %s, err: %v",
-			clientPath,
-			mountFsArgs,
-			output,
-			err,
-		)
-	}
+	// we donot get return code anymore
+	go exec.Command(clientPath, mountFsArgs...)
+	/*
+		output, err := mountFsCmd.CombinedOutput()
+		if err != nil {
+			return status.Errorf(
+				codes.Internal,
+				"curve-fuse mount failed. cmd: %s %v, output: %s, err: %v",
+				clientPath,
+				mountFsArgs,
+				output,
+				err,
+			)
+		}
+	*/
 	return nil
 }
 
