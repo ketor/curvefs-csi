@@ -22,10 +22,12 @@ import (
 	"os"
 	"os/exec"
 	"strconv"
+	"time"
 
 	"github.com/container-storage-interface/spec/lib/go/csi"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
+	"k8s.io/klog"
 )
 
 const (
@@ -218,7 +220,10 @@ func (cm *curvefsMounter) MountFs(
 	mountFsArgs = append(mountFsArgs, "-f")
 	mountFsArgs = append(mountFsArgs, targetPath)
 	// we donot get return code anymore
-	go exec.Command(clientPath, mountFsArgs...)
+	klog.V(5).Infof("clientPath: %s, mountFsArgs: %v", clientPath, mountFsArgs)
+	mountFsCmd := exec.Command(clientPath, mountFsArgs...)
+	go mountFsCmd.CombinedOutput()
+	time.Sleep(10 * time.Second) // wait for mounting...
 	/*
 		output, err := mountFsCmd.CombinedOutput()
 		if err != nil {
