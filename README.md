@@ -21,6 +21,7 @@ The Curvefs CSI Driver implements the CSI specification for container orchestrat
 1. add label to node
     ```bash
     kubectl label node <nodename> curvefs-csi-controller=enabled
+    # Add the following label for all node that your pod run on
     kubectl label node <nodename> curvefs-csi-node=enabled
     ```
 2. deploy csi driver
@@ -61,6 +62,8 @@ you may lose this part of data. Remount will crash, because you only have meta b
 | Curvefs CSI Driver Version | Curvefs Version | Curvefs CSI Driver Image                          |
 |----------------------------|-----------------|---------------------------------------------------|
 | v1.0.0                     | v2.3.0-rc0      | harbor.cloud.netease.com/curve/curvefs:csi-v1.0.0 |
+| v1.0.1 | v2.4.0-beta2 | harbor.cloud.netease.com/curve/curvefs:csi-v1.0.1|
+| v1.0.2 | v2.5.0-beta | harbor.cloud.netease.com/curve/curvefs:csi-v1.0.2|
 
 ## Follow-up Work
 
