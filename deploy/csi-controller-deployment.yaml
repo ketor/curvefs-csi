@@ -42,9 +42,9 @@ spec:
               name: socket-dir
         - name: curvefs-driver
           # Different back-end curve cluster using different image
-          # for v2.4.0-beta2:  harbor.cloud.netease.com/curve/curvefs:csi-v1.0.1
-          # for v2.5.0-beta:  harbor.cloud.netease.com/curve/curvefs:csi-v1.0.2
-          image: harbor.cloud.netease.com/curve/curvefs:csi-v1.0.0
+          # for v2.4.0-beta2:  curvecsi/curvefscsi:v1.0.1
+          # for v2.5.0-beta:  curvecsi/curvefscsi:v1.0.2
+          image: curvecsi/curvefscsi:v1.0.0
           imagePullPolicy: IfNotPresent
           securityContext:
             privileged: true
