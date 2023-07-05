@@ -61,9 +61,9 @@ you may lose this part of data. Remount will crash, because you only have meta b
 
 | Curvefs CSI Driver Version | Curvefs Version | Curvefs CSI Driver Image                          |
 |----------------------------|-----------------|---------------------------------------------------|
-| v1.0.0                     | v2.3.0-rc0      | harbor.cloud.netease.com/curve/curvefs:csi-v1.0.0 |
-| v1.0.1 | v2.4.0-beta2 | harbor.cloud.netease.com/curve/curvefs:csi-v1.0.1|
-| v1.0.2 | v2.5.0-beta | harbor.cloud.netease.com/curve/curvefs:csi-v1.0.2|
+| v1.0.0                     | v2.3.0-rc0      | curvecsi/curvefscsi:v1.0.0 |
+| v1.0.1 | v2.4.0-beta2 | curvecsi/curvefscsi:v1.0.1|
+| v1.0.2 | v2.5.0-beta | curvecsi/curvefscsi:v1.0.2| 
 
 ## Follow-up Work
 
