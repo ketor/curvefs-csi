@@ -65,6 +65,11 @@ you may lose this part of data. Remount will crash, because you only have meta b
 | v1.0.1 | v2.4.0-beta2 | curvecsi/curvefscsi:v1.0.1|
 | v1.0.2 | v2.5.0-beta | curvecsi/curvefscsi:v1.0.2| 
 
+## Inherited on the cloud platform
+
+- KubeSphere: https://www.kubesphere.io/zh/blogs/kubesphere-curve/
+- Rainbond: https://www.rainbond.com/blog/curve/
+
 ## Follow-up Work
 
 - more create/mount options support (require future curvefs support)
