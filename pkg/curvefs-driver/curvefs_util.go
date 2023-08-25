@@ -18,13 +18,14 @@ package curvefsdriver
 
 import (
 	"fmt"
-	"github.com/container-storage-interface/spec/lib/go/csi"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"strconv"
+
+	"github.com/container-storage-interface/spec/lib/go/csi"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 const (
@@ -203,6 +204,13 @@ func (cm *curvefsMounter) MountFs(
 	//       -o fstype=s3  --mdsAddr=1.1.1.1 <mountpoint>
 	var mountFsArgs []string
 	doubleDashArgs := map[string]string{"mdsaddr": ""}
+
+	extraPara := []string{"default_permissions", "allow_other"}
+	for _, para := range extraPara {
+		mountFsArgs = append(mountFsArgs, "-o")
+		mountFsArgs = append(mountFsArgs, para)
+	}
+
 	for k, v := range cm.mounterParams {
 		if _, ok := doubleDashArgs[k]; ok {
 			arg := fmt.Sprintf("--%s=%s", k, v)
