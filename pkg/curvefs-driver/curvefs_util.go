@@ -125,6 +125,12 @@ func (ct *curvefsTool) validateCommonParams(params map[string]string) error {
 func (ct *curvefsTool) validateCreateFsParams(params map[string]string) error {
 	if fsType, ok := params["fsType"]; ok {
 		ct.toolParams["fsType"] = fsType
+		enableSumInDir, ok := params["enableSumInDir"]
+		if ok {
+			ct.toolParams["enableSumInDir"] = enableSumInDir
+		} else {
+			ct.toolParams["enableSumInDir"] = "0"
+		}
 		if fsType == "s3" {
 			s3Endpoint, ok1 := params["s3Endpoint"]
 			s3AccessKey, ok2 := params["s3AccessKey"]
@@ -200,11 +206,11 @@ func (cm *curvefsMounter) MountFs(
 	}
 
 	cm.mounterParams["fsname"] = fsname
-	// call curve-fuse -o conf=/etc/curvefs/client.conf -o fsname=testfs \
-	//       -o fstype=s3  --mdsAddr=1.1.1.1 <mountpoint>
+	// curve-fuse -o default_permissions -o allow_other \
+	//  -o conf=/etc/curvefs/client.conf -o fsname=testfs \
+	//  -o fstype=s3  --mdsAddr=1.1.1.1 <mountpoint>
 	var mountFsArgs []string
 	doubleDashArgs := map[string]string{"mdsaddr": ""}
-
 	extraPara := []string{"default_permissions", "allow_other"}
 	for _, para := range extraPara {
 		mountFsArgs = append(mountFsArgs, "-o")
